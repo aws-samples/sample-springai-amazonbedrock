@@ -42,6 +42,7 @@ public class RagServiceImpl implements RagService {
 
     @Override
     public String getResponse(String question) {
+        // Retrieve relevant documents from the vector store based on the question
         List<Document> documents = vectorStore.similaritySearch(SearchRequest.builder().
                 query(question).topK(5).build());
         List<String> contents = documents.stream().map(Document::getFormattedContent).toList();
