@@ -45,13 +45,6 @@
     <dependencyManagement>
         <dependencies>
             <!-- Add Spring AI BOM for dependency management here-->
-            <dependency>
-                <groupId>org.springframework.ai</groupId>
-                <artifactId>spring-ai-bom</artifactId>
-                <version>${spring-ai.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
