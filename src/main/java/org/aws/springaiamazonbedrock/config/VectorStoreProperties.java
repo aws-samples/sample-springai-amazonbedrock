@@ -10,22 +10,5 @@ import java.util.List;
 @ConfigurationProperties(prefix = "app.ai.vectorstore")
 public class VectorStoreProperties {
 
-    private String path;
-    private List<Resource> documents;
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public List<Resource> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(List<Resource> documents) {
-        this.documents = documents;
-    }
 }
