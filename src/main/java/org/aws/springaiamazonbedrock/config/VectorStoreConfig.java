@@ -29,22 +29,25 @@ public class VectorStoreConfig {
         SimpleVectorStore  vectorStore = SimpleVectorStore.builder(embeddingModel).build();
         File vectorStoreFile = new File(vectorStoreProperties.getPath());
         if (vectorStoreFile.exists()) {
-            vectorStore.load(vectorStoreFile);
-        } else {
-            vectorStoreProperties.getDocuments().forEach(document -> {
-                try {
-                    TikaDocumentReader documentReader = new TikaDocumentReader(document);
-                    List<Document> documents = documentReader.get();
-                    TextSplitter textSplitter = new TokenTextSplitter(500, 200, 5, 10000, true);
-                    List<Document> splitDocuments = textSplitter.apply(documents);
-                    splitDocuments.forEach(System.out::println);
-                    vectorStore.add(splitDocuments);
-                } catch (Exception e) {
-                    throw new RuntimeException("Failed to add document: " + document.getFilename(), e);
-                }
-            });
-            vectorStore.save(vectorStoreFile);
+            if(vectorStoreFile.delete()) {
+                System.out.println("Deleted existing vector store file: " + vectorStoreFile.getAbsolutePath());
+            } else {
+                throw new RuntimeException("Failed to delete existing vector store file: " + vectorStoreFile.getAbsolutePath());
+            }
         }
+        vectorStoreProperties.getDocuments().forEach(document -> {
+            try {
+                TikaDocumentReader documentReader = new TikaDocumentReader(document);
+                List<Document> documents = documentReader.get();
+                TextSplitter textSplitter = new TokenTextSplitter(500, 200, 5, 10000, true);
+                List<Document> splitDocuments = textSplitter.apply(documents);
+                splitDocuments.forEach(System.out::println);
+                vectorStore.add(splitDocuments);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to add document: " + document.getFilename(), e);
+            }
+        });
+        vectorStore.save(vectorStoreFile);
         return vectorStore;
     }
 }
