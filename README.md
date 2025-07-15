@@ -18,7 +18,7 @@ This application demonstrates the use of Spring AI with Amazon Bedrock. It provi
 ## Prerequisites
 
 Before running the application, ensure you have the following installed:
-- Java 21 or higher
+- Java 21 or higher (Amazon Corretto 21 recommended)
 - AWS CLI configured with appropriate credentials
 - Access to Amazon Bedrock service with permissions for Claude and Cohere models
 - AWS environment variables set up (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DEFAULT_REGION)
@@ -50,45 +50,43 @@ aws configure
 
 ## Running the Application
 
-### Building the Application
+### Installing Java 21 (if needed)
 
-Before running the application, you need to build it using Maven to download dependencies and compile the code:
-
-```bash
-# Using Maven Wrapper
-./mvnw clean install
-```
-
-This command will:
-1. Clean any previous builds
-2. Download all required dependencies
-3. Compile the application
-4. Run tests
-5. Package the application
-
-### Running the Built Application
-
-After building, you can run the application in interactive console mode:
+For convenience, you can use the provided script to install Amazon Corretto 21:
 
 ```bash
-./mvnw spring-boot:run
+./scripts/install-corretto.sh
 ```
 
-This will start the Spring Boot application with an interactive console where you can:
-- Chat with the AI model
-- Use chat with memory capabilities
-- Check temperature for cities
-- Use RAG functionality for movie information
+This script will:
+1. Check if Java 21 is already installed
+2. If not, offer to install Amazon Corretto 21 based on your operating system
+3. Verify the installation
 
-### Using the Script (with AWS credentials)
+### Running with the Convenience Script
 
-For convenience, you can use the provided script:
+The easiest way to run the application is with the provided script:
 
 ```bash
 ./scripts/run-console.sh
 ```
 
-Note: Make sure to update the AWS credentials in the script before running it.
+This script will:
+1. Check Java version and AWS credentials
+2. Test AWS connectivity
+3. Check if port 8080 is available
+4. Build the application
+5. Start the Spring Boot application
+
+### Manual Build and Run
+
+Alternatively, you can build and run the application manually:
+
+```bash
+# Using Maven Wrapper
+./mvnw clean install
+./mvnw spring-boot:run
+```
 
 ## Using the Application
 
@@ -97,7 +95,7 @@ Once the application is running, you'll see a welcome message and a prompt to se
 ```
 Welcome to the Spring AI Amazon Bedrock Workshop!
 ====================================================
-Selection your choice of action (chat/chatmemory/checkTemp/rag/quit):
+Selection your choice of action (chat/tempcheck/rag/quit):
 ```
 
 ### Available Commands
@@ -109,16 +107,9 @@ Selection your choice of action (chat/chatmemory/checkTemp/rag/quit):
   What is Amazon Bedrock?
   ```
 
-- `chatmemory` - Chat with memory (conversation context)
+- `tempcheck` - Get temperature information for a city
   ```
-  Selection your choice of action: chatmemory
-  Your chat:
-  Tell me about AWS services
-  ```
-
-- `checkTemp` - Get temperature information for a city
-  ```
-  Selection your choice of action: checkTemp
+  Selection your choice of action: tempcheck
   Please enter your city for check the temperature:
   New York
   ```
@@ -155,6 +146,28 @@ The application also exposes REST endpoints:
     -d '{"city":"London"}'
   ```
 
+## Configuration Details
+
+The application uses the following Spring AI configurations:
+
+```properties
+# AWS Credentials
+spring.ai.bedrock.aws.region=${AWS_DEFAULT_REGION}
+spring.ai.bedrock.aws.access-key=${AWS_ACCESS_KEY_ID}
+spring.ai.bedrock.aws.secret-key=${AWS_SECRET_ACCESS_KEY}
+spring.ai.bedrock.aws.session-token=${AWS_SESSION_TOKEN}
+
+# Model Configuration
+spring.ai.bedrock.converse.chat.options.model=anthropic.claude-3-sonnet-20240229-v1:0
+
+# RAG Configurations
+app.ai.vectorstore.path=/tmp/springai-vectorstore.json
+app.ai.vectorstore.documents=classpath:Top_Movies.csv
+spring.ai.model.embedding=bedrock-cohere
+spring.ai.bedrock.cohere.embedding.model=cohere.embed-multilingual-v3
+spring.ai.bedrock.cohere.embedding.options.input-type=SEARCH_DOCUMENT
+```
+
 ## Troubleshooting
 
 ### AWS Credentials Issues
@@ -163,7 +176,7 @@ If you encounter AWS credential errors:
 
 1. Verify your AWS credentials are correctly set
 2. Ensure you have access to Amazon Bedrock service
-3. Check that the required models (Claude and Cohere) are enabled in your Bedrock console
+3. Check that the required models are enabled in your Bedrock console
 
 ### Application Startup Issues
 
@@ -172,11 +185,12 @@ If the application fails to start:
 1. Ensure Java 21 is installed and set as the active JDK
 2. Check that all required environment variables are set
 3. Verify Maven is working correctly by running `./mvnw -v`
+4. Check if port 8080 is already in use by another application
 
 ### Model Access Issues
 
 If you get errors about model access:
 
 1. Verify you have enabled the required models in Amazon Bedrock:
-   - Anthropic Claude 3 Sonnet
-   - Cohere Embed Multilingual v3
+   - Anthropic Claude 3 Sonnet (anthropic.claude-3-sonnet-20240229-v1:0)
+   - Cohere Embed Multilingual v3 (cohere.embed-multilingual-v3)
