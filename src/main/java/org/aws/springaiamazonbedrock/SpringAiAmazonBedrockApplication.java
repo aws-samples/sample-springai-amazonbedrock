@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.util.Scanner;
 
@@ -28,7 +27,7 @@ public class SpringAiAmazonBedrockApplication implements CommandLineRunner {
         System.out.println("====================================================");
 
         while(true) {
-            System.out.println("Selection your choice of action (chat/checkTemp/rag/quit):");
+            System.out.println("Selection your choice of action (chat/tempcheck/rag/quit):");
             Scanner scanner = new Scanner(System.in);
             String action = scanner.nextLine();
             System.out.println("""
@@ -37,7 +36,7 @@ public class SpringAiAmazonBedrockApplication implements CommandLineRunner {
                 System.out.println("Please enter your prompt:");
                 String prompt = scanner.nextLine();
                 System.out.println("Response: " + simpleChatService.chat(prompt));
-            } else if (action.equals("checkTemp")) {
+            } else if (action.equals("tempcheck")) {
                 System.out.println("Please enter your city for check the temperature:");
                 String city = scanner.nextLine();
                 System.out.println("Response: " + simpleChatService.chatWithTemplate(city));
