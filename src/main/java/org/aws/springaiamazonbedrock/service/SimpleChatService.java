@@ -11,7 +11,7 @@ public interface SimpleChatService {
      * @param prompt  The prompt message to be sent to the AI model.
      * @return The response from the AI model.
      */
-    String chat(String prompt);
+    String chat(String user_prompt);
 
     /**
      * This method is used to send a chat message to the AI model with a template and get a response.

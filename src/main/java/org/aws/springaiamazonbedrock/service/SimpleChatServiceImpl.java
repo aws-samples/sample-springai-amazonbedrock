@@ -14,7 +14,7 @@ import java.util.Map;
 public class SimpleChatServiceImpl implements SimpleChatService {
 
     @Override
-    public String chat(String prompt) {
+    public String chat(String user_prompt) {
         return "";
     }
 
