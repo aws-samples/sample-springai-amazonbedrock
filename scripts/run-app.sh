@@ -56,7 +56,7 @@ fi
 
 # Build the application using the build script
 echo -e "${YELLOW}Running build script...${NC}"
-./build-app.sh
+./scripts/build-app.sh
 if [ $? -ne 0 ]; then
     echo -e "${RED}Build script failed. Please check the error messages above.${NC}"
     exit 1
