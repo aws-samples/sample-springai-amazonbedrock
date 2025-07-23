@@ -33,22 +33,22 @@ else
     exit 1
 fi
 
-# Check if port 8080 is in use
-echo -e "${YELLOW}Checking if port 8090 is available...${NC}"
+# Check if port 9090 is in use
+echo -e "${YELLOW}Checking if port 9090 is available...${NC}"
 if command -v lsof &> /dev/null; then
-    port_check=$(lsof -i:8090 -t)
+    port_check=$(lsof -i:9090 -t)
     if [ -n "$port_check" ]; then
-        echo -e "${YELLOW}Port 8090 is in use by process ID(s): $port_check${NC}"
+        echo -e "${YELLOW}Port 9090 is in use by process ID(s): $port_check${NC}"
         read -p "Do you want to kill these processes? (y/n): " kill_choice
         if [[ $kill_choice == "y" || $kill_choice == "Y" ]]; then
-            echo "Killing processes on port 8090..."
+            echo "Killing processes on port 9090..."
             kill -9 $port_check
             echo -e "${GREEN}Processes killed. ✓${NC}"
         else
-            echo -e "${YELLOW}Continuing with port 8090 in use. The application may fail to start.${NC}"
+            echo -e "${YELLOW}Continuing with port 9090 in use. The application may fail to start.${NC}"
         fi
     else
-        echo -e "${GREEN}Port 8090 is available. ✓${NC}"
+        echo -e "${GREEN}Port 9090 is available. ✓${NC}"
     fi
 else
     echo -e "${YELLOW}Warning: 'lsof' command not found. Cannot check if port 8090 is in use.${NC}"
