@@ -55,7 +55,7 @@ aws configure
 For convenience, you can use the provided script to install Amazon Corretto 21:
 
 ```bash
-./scripts/install-corretto.sh
+./scripts/install-java21.sh
 ```
 
 This script will:
@@ -63,20 +63,47 @@ This script will:
 2. If not, offer to install Amazon Corretto 21 based on your operating system
 3. Verify the installation
 
-### Running with the Convenience Script
+## Running the Application
 
-The easiest way to run the application is with the provided script:
+### Quick Start Workflow
 
+1. **Install Java 21** (if needed): `./scripts/install-java21.sh`
+2. **Build the application**: `./scripts/build-app.sh`
+3. **Run the application**: `./scripts/run-app.sh`
+
+### Recommended: Build and Run Separately
+
+For better control and debugging, it's recommended to build the application first, then run it:
+
+**Step 1: Build the application**
 ```bash
-./scripts/run-console.sh
+./scripts/build-app.sh
 ```
 
 This script will:
-1. Check Java version and AWS credentials
+1. Check Java version (Java 21 or higher required)
+2. Build the application using Maven
+
+**Step 2: Run the application**
+```bash
+./scripts/run-app.sh
+```
+
+This script will:
+1. Check AWS credentials
 2. Test AWS connectivity
 3. Check if port 8080 is available
-4. Build the application
-5. Start the Spring Boot application
+4. Start the Spring Boot application
+
+### All-in-One Convenience Script
+
+Alternatively, you can build and run in one step with the convenience script:
+
+```bash
+./scripts/run-app.sh
+```
+
+This script will automatically call `build-app.sh` and then start the application.
 
 ### Manual Build and Run
 
@@ -194,3 +221,7 @@ If you get errors about model access:
 1. Verify you have enabled the required models in Amazon Bedrock:
    - Anthropic Claude 3 Sonnet (anthropic.claude-3-sonnet-20240229-v1:0)
    - Cohere Embed Multilingual v3 (cohere.embed-multilingual-v3)
+
+## License
+
+This project is licensed under the MIT License.
