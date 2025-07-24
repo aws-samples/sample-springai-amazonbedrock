@@ -221,3 +221,7 @@ If you get errors about model access:
 1. Verify you have enabled the required models in Amazon Bedrock:
    - Anthropic Claude 3 Sonnet (anthropic.claude-3-sonnet-20240229-v1:0)
    - Cohere Embed Multilingual v3 (cohere.embed-multilingual-v3)
+
+## License
+
+This project is licensed under the MIT License.
